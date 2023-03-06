@@ -91,4 +91,14 @@ export class UserService {
     const user = await this.userRepository.create(newUserData);
     return this.userRepository.save(user);
   }
+
+  /** * Clears the DB if run in test environment
+   *
+   * @throws Error If run in non-test environment
+   */
+  async clear() {
+    if (process.env.NODE_ENV !== 'test')
+      throw new Error('This function cannot run in non-test environment');
+    await this.userRepository.clear();
+  }
 }
